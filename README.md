@@ -15,7 +15,7 @@
 
 ## News
 
-**[2024-10-10]** [PointGST](https://github.com/jerryfeng2003/PointGST) is released.
+**[2024-10-10]** [PointGST](https://arxiv.org/abs/2410.08114) is released.
 
 ## Abstract
 
@@ -107,7 +107,7 @@ This project is based on Point-BERT ([paper](https://arxiv.org/abs/2111.14819), 
 
  ## Citation
 
-If you find this repository useful in your research, please consider giving a star ⭐ and a citation
+If you find this repository useful in your research, please consider giving a star ⭐ and a citation.
 ```bibtex
 @article{liang2024pointgst,
   title={Parameter-Efficient Fine-Tuning in Spectral Domain for Point Cloud Learning},

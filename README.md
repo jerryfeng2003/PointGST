@@ -10,6 +10,10 @@
 
 [![arXiv](https://img.shields.io/badge/Arxiv-2410.08114-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2410.08114)
 [![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-green.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/LICENSE)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/parameter-efficient-fine-tuning-in-spectral/3d-point-cloud-classification-on-scanobjectnn)](https://paperswithcode.com/sota/3d-point-cloud-classification-on-scanobjectnn?p=parameter-efficient-fine-tuning-in-spectral)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/parameter-efficient-fine-tuning-in-spectral/3d-parameter-efficient-fine-tuning-for)](https://paperswithcode.com/sota/3d-parameter-efficient-fine-tuning-for?p=parameter-efficient-fine-tuning-in-spectral)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/parameter-efficient-fine-tuning-in-spectral/3d-parameter-efficient-fine-tuning-for-1)](https://paperswithcode.com/sota/3d-parameter-efficient-fine-tuning-for-1?p=parameter-efficient-fine-tuning-in-spectral)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/parameter-efficient-fine-tuning-in-spectral/3d-point-cloud-classification-on-modelnet40)](https://paperswithcode.com/sota/3d-point-cloud-classification-on-modelnet40?p=parameter-efficient-fine-tuning-in-spectral)
 
 </div>
 

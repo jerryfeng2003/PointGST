@@ -1,0 +1,1 @@
+from .runner_finetune import test_net as test_run_net

@@ -44,6 +44,10 @@ We recommend using Anaconda for the installation process:
 ```bash
 git clone https://github.com/jerryfeng2003/PointGST.git
 cd PointGST/
+
+wget https://github.com/jerryfeng2003/PointGST/releases/download/ckpts/extensions.zip
+unzip extensions.zip
+
 ```
 ### Requirements
 ```bash

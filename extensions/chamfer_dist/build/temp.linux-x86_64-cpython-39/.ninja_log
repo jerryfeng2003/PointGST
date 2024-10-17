@@ -3,3 +3,5 @@
 0	31834	1714393601994102089	/data1/trfeng/project/Point_tuning/extensions/chamfer_dist/build/temp.linux-x86_64-cpython-39/chamfer.o	b4f3c244bea4e288
 2	19661	1727941072421808652	/home/trfeng/project/PointGST/extensions/chamfer_dist/build/temp.linux-x86_64-cpython-39/chamfer_cuda.o	c1c357432b7877f6
 2	45162	1727941097921726102	/home/trfeng/project/PointGST/extensions/chamfer_dist/build/temp.linux-x86_64-cpython-39/chamfer.o	d7df1d7edb4d3dd2
+9	16725	1729065652715177790	/home/trfeng/project/PointGST/extensions/chamfer_dist/build/temp.linux-x86_64-cpython-39/chamfer_cuda.o	e89923cc4c74a5be
+9	51668	1729065687659703003	/home/trfeng/project/PointGST/extensions/chamfer_dist/build/temp.linux-x86_64-cpython-39/chamfer.o	e62b25c184648c00

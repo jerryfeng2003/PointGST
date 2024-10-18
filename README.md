@@ -45,9 +45,6 @@ We recommend using Anaconda for the installation process:
 git clone https://github.com/jerryfeng2003/PointGST.git
 cd PointGST/
 
-wget https://github.com/jerryfeng2003/PointGST/releases/download/ckpts/extensions.zip
-unzip extensions.zip
-
 ```
 ### Requirements
 ```bash
@@ -67,9 +64,6 @@ pip install "git+https://github.com/erikwijmans/Pointnet2_PyTorch.git#egg=pointn
 
 # GPU kNN
 pip install --upgrade https://github.com/unlimblue/KNN_CUDA/releases/download/0.2/KNN_CUDA-0.2-py3-none-any.whl
-
-# Ninja
-pip install Ninja
 
 ```
 ### Datasets

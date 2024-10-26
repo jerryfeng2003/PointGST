@@ -76,6 +76,10 @@ See [DATASET.md](./DATASET.md) for details.
  <img src="./figure/result.png" width = "888"  align=center />
 </div>
 
+<div  align="center">    
+ <img src="./figure/result2.png" width = "888"  align=center />
+</div>
+
 | Baseline | Trainable Parameters | Dataset | Config | Acc. | Download |
 | :---- | :---- | :---- | :---- | :---- | :---- |
 | Point-MAE <br> (ECCV 22) | 0.6M |ModelNet40 <br> OBJ_BG <br> OBJ_ONLY <br> PB_T50_RS | [modelnet](./cfgs/mae/finetune_modelnet_pgst.yaml) <br> [scan_objbg](./cfgs/mae/finetune_scan_objbg_pgst.yaml) <br> [scan_objonly](./cfgs/mae/finetune_scan_objonly_pgst.yaml) <br> [scan_hardest](./cfgs/mae/finetune_scan_hardest_pgst.yaml) | 93.5 <br> 91.74 <br> 90.19 <br> 85.29 | [ckpt](https://github.com/jerryfeng2003/PointGST/releases/download/ckpts/modelnet_mae.pth) <br> [ckpt](https://github.com/jerryfeng2003/PointGST/releases/download/ckpts/scan_objbg_mae.pth) <br> [ckpt](https://github.com/jerryfeng2003/PointGST/releases/download/ckpts/scan_objonly_mae.pth) <br> [ckpt](https://github.com/jerryfeng2003/PointGST/releases/download/ckpts/scan_hardest_mae.pth) |

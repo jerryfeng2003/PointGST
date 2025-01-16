@@ -3,31 +3,43 @@ import torch.nn as nn
 from timm.models.layers import DropPath
 
 
-class GetLaplacian(nn.Module):
-    def __init__(self, normalize=True):
-        super(GetLaplacian, self).__init__()
-        self.normalize = normalize
+def get_laplacian(adj_matrix, normalize=True):
+    """
+    Compute the graph Laplacian matrix.
 
-    def diag(self, mat):
-        # input is batch x vertices
-        d = []
-        for vec in mat:
-            d.append(torch.diag(vec))
-        return torch.stack(d)
+    Args:
+        adj_matrix (torch.Tensor): The adjacency matrix (batch_size, vertices, vertices).
+        normalize (bool): Whether to compute the normalized Laplacian.
 
-    def forward(self, adj_matrix):
-        if self.normalize:
-            D = torch.sum(adj_matrix, dim=-1)
-            eye = torch.ones_like(D)
-            eye = self.diag(eye)
-            D = 1 / torch.sqrt(D)
-            D = self.diag(D)
-            L = eye - D * adj_matrix * D
-        else:
-            D = torch.sum(adj_matrix, dim=-1)
-            D = self.diag(D)
-            L = D - adj_matrix
-        return L
+    Returns:
+        torch.Tensor: The Laplacian matrix (batch_size, vertices, vertices).
+    """
+    if normalize:
+        # Degree matrix: sum of rows
+        D = torch.sum(adj_matrix, dim=-1)  # (batch_size, vertices)
+        # Avoid division by zero by adding epsilon to D
+        D_inv_sqrt = torch.rsqrt(D + 1e-6)  # Inverse square root
+        D_inv_sqrt = torch.diag_embed(D_inv_sqrt)  # Batch-wise diagonal matrices
+        # Normalized Laplacian
+        L = torch.eye(adj_matrix.size(-1), device=adj_matrix.device) - \
+            D_inv_sqrt @ adj_matrix @ D_inv_sqrt
+    else:
+        # Degree matrix
+        D = torch.sum(adj_matrix, dim=-1)  # (batch_size, vertices)
+        D = torch.diag_embed(D)  # Batch-wise diagonal matrices
+        # Unnormalized Laplacian
+        L = D - adj_matrix
+    return L
+
+def get_basis(center):
+    L = torch.cdist(center, center)
+    L = 1 / (L / torch.min(L[L > 0], dim=-1, keepdim=True).values + torch.eye(L.size(-1), device=L.device).unsqueeze(0))
+    L = get_laplacian(L)
+    _, U = torch.linalg.eigh(L)
+    return U
+
+def sort(pts: torch.Tensor, idx: torch.Tensor):
+    return torch.gather(pts, dim=1, index=idx.unsqueeze(-1).expand(-1, -1, pts.size(-1)))
 
 class PCSA(nn.Module):
     def __init__(self, dim, cfg):
@@ -87,9 +99,3 @@ class PCSA(nn.Module):
         h[:, -G0:, :] = x + h[:, -G0:, :]
         h = self.up(h)
         return h*self.scale
-
-
-def sort(pts:torch.Tensor,idx:torch.Tensor):
-    batch_indices = torch.arange(pts.size(0)).unsqueeze(1).expand_as(idx)
-    sorted_pts = pts[batch_indices, idx]
-    return sorted_pts

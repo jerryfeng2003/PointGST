@@ -13,7 +13,7 @@ from models.GPT import GPT_extractor, GPT_generator
 import math
 from models.z_order_gpt import *
 from models.z_order import xyz2key
-from models.PGST import GetLaplacian, sort
+from models.PGST import get_basis, sort
 
 
 class Encoder_large(nn.Module):  # Embedding module
@@ -501,8 +501,6 @@ class GPT_Transformer_PGST(nn.Module):
         trunc_normal_(self.cls_token, std=.02)
         trunc_normal_(self.cls_pos, std=.02)
 
-        self.getLaplacian = GetLaplacian(normalize=False)
-
     def build_loss_func(self, loss_type='cdl12'):
         self.loss_ce = nn.CrossEntropyLoss()
         if loss_type == "cdl1":
@@ -573,21 +571,13 @@ class GPT_Transformer_PGST(nn.Module):
             if m.bias is not None:
                 nn.init.constant_(m.bias, 0)
 
-    def get_basis(self, center):
-        L = torch.cdist(center, center)
-        L = 1 / (L / torch.min(torch.where(L == 0, torch.full_like(L, 10.), L)) + torch.diag(
-            torch.ones(L.shape[-1])).cuda())
-        L = self.getLaplacian(L)
-        _, U = torch.linalg.eigh(L)
-        return U
-
     def forward(self, pts):
         neighborhood, center = self.group_divider(pts)
         group_input_tokens = self.encoder(neighborhood)  # B G N
 
         B, L, _ = group_input_tokens.shape
 
-        U = self.get_basis(center)
+        U = get_basis(center)
         B, G, _ = center.shape
         c = center * 100
         key = xyz2key(c[:, :, 1], c[:, :, 0], c[:, :, 2])
@@ -595,8 +585,8 @@ class GPT_Transformer_PGST(nn.Module):
         _, idx1 = torch.sort(idx0)
         sub_center = sort(center,idx0)
         group_num = self.local
-        group_size = G//group_num
-        sub_U = self.get_basis(sub_center.reshape(B * group_num, group_size, 3)).reshape(B, group_num, group_size, group_size)
+        group_size = G // group_num
+        sub_U = get_basis(sub_center.reshape(B * group_num, group_size, 3)).reshape(B, group_num, group_size, group_size)
 
         cls_tokens = self.cls_token.expand(group_input_tokens.size(0), -1, -1)
         cls_pos = self.cls_pos.expand(group_input_tokens.size(0), -1, -1)
@@ -616,6 +606,8 @@ class GPT_Transformer_PGST(nn.Module):
 
         # transformer
         ret, concat_f = self.blocks(x, pos, attn_mask, U, sub_U, [idx0,idx1], classify=True)
-        # exit(0)
 
-        return ret
+        if self.tsne:
+            return ret,concat_f
+        else:
+            return ret

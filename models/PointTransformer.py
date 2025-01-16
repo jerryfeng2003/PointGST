@@ -312,9 +312,10 @@ class PointTransformer_PGST(nn.Module):
         key = xyz2key(c[:, :, 1], c[:, :, 0], c[:, :, 2])
         _, idx0 = torch.sort(key)
         _, idx1 = torch.sort(idx0)
-        sub_center=sort(center,idx0)
-        group_size=self.local
-        sub_U = self.get_basis(sub_center.reshape(B * (G // group_size), group_size, 3)).reshape(B, G // group_size, group_size, group_size)
+        sub_center = sort(center,idx0)
+        group_num = self.local
+        group_size = G//group_num
+        sub_U = self.get_basis(sub_center.reshape(B * group_num, group_size, 3)).reshape(B, group_num, group_size, group_size)
 
         group_input_tokens = self.encoder(neighborhood)  # B G N
 

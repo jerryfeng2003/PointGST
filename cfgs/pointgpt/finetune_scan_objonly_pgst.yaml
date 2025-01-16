@@ -33,7 +33,7 @@ model:
     encoder_dims: 1024,
     decoder_depth: 4,
     rank: 36,
-    local: 32,
+    local: 4,
   }
 
 npoints: 2048

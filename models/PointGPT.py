@@ -593,8 +593,10 @@ class GPT_Transformer_PGST(nn.Module):
         key = xyz2key(c[:, :, 1], c[:, :, 0], c[:, :, 2])
         _, idx0 = torch.sort(key)
         _, idx1 = torch.sort(idx0)
-        sub_center=sort(center,idx0)
-        sub_U = self.get_basis(sub_center.reshape(B * (G // 32), 32, 3)).reshape(B, G // 32, 32, 32)
+        sub_center = sort(center,idx0)
+        group_num = self.local
+        group_size = G//group_num
+        sub_U = self.get_basis(sub_center.reshape(B * group_num, group_size, 3)).reshape(B, group_num, group_size, group_size)
 
         cls_tokens = self.cls_token.expand(group_input_tokens.size(0), -1, -1)
         cls_pos = self.cls_pos.expand(group_input_tokens.size(0), -1, -1)

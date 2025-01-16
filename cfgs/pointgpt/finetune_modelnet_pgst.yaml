@@ -35,7 +35,7 @@ model:
     loss: cdl2,
     weight_center: 1,
     rank: 36,
-    local: 32,
+    local: 4,
   }
 
 npoints: 1024

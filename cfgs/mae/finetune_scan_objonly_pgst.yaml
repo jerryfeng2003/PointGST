@@ -31,7 +31,7 @@ model: {
   num_group: 128,
   encoder_dims: 384,
   rank: 36,
-  local: 4,
+  local: 32,
 }
 
 

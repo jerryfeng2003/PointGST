@@ -11,7 +11,7 @@ from utils.checkpoint import get_missing_parameters_message, get_unexpected_para
 from utils.logger import *
 from knn_cuda import KNN
 from models.z_order import xyz2key
-from models.PGST import PCSA,sort,GetLaplacian
+from models.PGST import PCSA,sort,get_basis
 import numpy as np
 import os
 
@@ -294,27 +294,20 @@ class PointTransformer_PGST(nn.Module):
             if m.bias is not None:
                 nn.init.constant_(m.bias, 0)
 
-    def get_basis(self, center):
-        L = torch.cdist(center, center)
-        L = 1 / (L / torch.min(torch.where(L == 0, torch.full_like(L, 10.), L)) + torch.diag(
-            torch.ones(L.shape[-1])).cuda())
-        L = self.getLaplacian(L)
-        _, U = torch.linalg.eigh(L)
-        return U
-
     def forward(self, pts):
 
         neighborhood, center = self.group_divider(pts)
 
-        U = self.get_basis(center)
+        U = get_basis(center)
         B, G, _ = center.shape
         c = center * 100
         key = xyz2key(c[:, :, 1], c[:, :, 0], c[:, :, 2])
         _, idx0 = torch.sort(key)
         _, idx1 = torch.sort(idx0)
-        sub_center=sort(center,idx0)
-        group_size=self.local
-        sub_U = self.get_basis(sub_center.reshape(B * (G // group_size), group_size, 3)).reshape(B, G // group_size, group_size, group_size)
+        sub_center = sort(center,idx0)
+        group_num = self.local
+        group_size = G // group_num
+        sub_U = get_basis(sub_center.reshape(B * group_num, group_size, 3)).reshape(B, group_num, group_size, group_size)
 
         group_input_tokens = self.encoder(neighborhood)  # B G N
 

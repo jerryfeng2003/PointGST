@@ -20,6 +20,7 @@
 ## News
 
 **[2025-07-26]** [PointGST](https://arxiv.org/abs/2410.08114) is accepted by TPAMI. 🎉
+
 **[2024-10-10]** [PointGST](https://arxiv.org/abs/2410.08114) is released. 🔥
 
 ## Abstract

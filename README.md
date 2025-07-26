@@ -19,7 +19,8 @@
 
 ## News
 
-**[2024-10-10]** [PointGST](https://arxiv.org/abs/2410.08114) is released.
+**[2025-07-26]** [PointGST](https://arxiv.org/abs/2410.08114) is accepted by TPAMI. 🎉
+**[2024-10-10]** [PointGST](https://arxiv.org/abs/2410.08114) is released. 🔥
 
 ## Abstract
 
@@ -121,7 +122,8 @@ If you find this repository useful in your research, please consider giving a st
 @article{liang2024pointgst,
   title={Parameter-Efficient Fine-Tuning in Spectral Domain for Point Cloud Learning},
   author={Liang, Dingkang and Feng, Tianrui and Zhou, Xin and Zhang, Yumeng and Zou, Zhikang and Bai, Xiang},
-  journal={arXiv preprint arXiv:2410.08114},
-  year={2024}
+  journal={IEEE transactions on pattern analysis and machine intelligence},
+  year={2025},
+  publisher={IEEE}
 }
 ```

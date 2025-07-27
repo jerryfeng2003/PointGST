@@ -118,3 +118,78 @@ def load_model(base_model, ckpt_path, logger=None):
         metrics = 'No Metrics'
     print_log(f'ckpts @ {epoch} epoch( performance = {str(metrics):s})', logger=logger)
     return
+
+def build_opti_sche(base_model, config):
+    def add_weight_decay(model, weight_decay=1e-5, skip_list=()):
+        print('only the following parameter is optimized')
+        decay = []
+        no_decay = []
+        for name, param in model.module.named_parameters():
+            if not param.requires_grad:
+                continue  # frozen weights
+            if config.optimizer.part == 'only_new':  ## only the newly added classifier is learned.
+                if ('cls' in name):
+                    if len(param.shape) == 1 or name.endswith(".bias") or 'token' in name or name in skip_list:
+                        # print(name)
+                        no_decay.append(param)
+                    else:
+                        decay.append(param)
+                    print(name)
+            elif config.optimizer.part == 'adapt':
+                if ('adapt' in name) or ('cls' in name):
+                    if (len(param.shape)) == 1 or name.endswith(".bias") or 'token' in name or name in skip_list:
+                        no_decay.append(param)
+                    else:
+                        decay.append(param)
+                    print(name)
+                else:
+                    param.requires_grad = False
+            else:
+                if len(param.shape) == 1 or name.endswith(".bias") or 'token' in name or name in skip_list:
+                    # print(name)
+                    no_decay.append(param)
+                else:
+                    decay.append(param)
+                print(name)
+        return [
+            {'params': no_decay, 'weight_decay': 0.},
+            {'params': decay, 'weight_decay': weight_decay}]
+
+    opti_config = config.optimizer
+    if opti_config.type == 'AdamW':
+        param_groups = add_weight_decay(base_model, weight_decay=opti_config.kwargs.weight_decay)
+        optimizer = optim.AdamW(param_groups, **opti_config.kwargs)
+    elif opti_config.type == 'Adam':
+        param_groups = add_weight_decay(base_model, weight_decay=opti_config.kwargs.weight_decay)
+        optimizer = optim.Adam(param_groups, **opti_config.kwargs)
+    elif opti_config.type == 'SGD':
+        param_groups = add_weight_decay(base_model, weight_decay=opti_config.kwargs.weight_decay)
+        optimizer = optim.SGD(param_groups, nesterov=True, **opti_config.kwargs)
+    else:
+        raise NotImplementedError()
+
+    sche_config = config.scheduler
+    if sche_config.type == 'LambdaLR':
+        scheduler = build_lambda_sche(optimizer, sche_config.kwargs)  # misc.py
+    elif sche_config.type == 'CosLR':
+        scheduler = CosineLRScheduler(optimizer,
+                                      t_initial=sche_config.kwargs.epochs,
+                                      lr_min=1e-6,
+                                      warmup_lr_init=1e-6,
+                                      warmup_t=sche_config.kwargs.initial_epochs,
+                                      cycle_limit=1,
+                                      t_in_epochs=True)
+    elif sche_config.type == 'StepLR':
+        scheduler = torch.optim.lr_scheduler.StepLR(optimizer, **sche_config.kwargs)
+    elif sche_config.type == 'function':
+        scheduler = None
+    else:
+        raise NotImplementedError()
+
+    if config.get('bnmscheduler') is not None:
+        bnsche_config = config.bnmscheduler
+        if bnsche_config.type == 'Lambda':
+            bnscheduler = build_lambda_bnsche(base_model, bnsche_config.kwargs)  # misc.py
+        scheduler = [scheduler, bnscheduler]
+
+    return optimizer, scheduler

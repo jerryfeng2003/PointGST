@@ -457,6 +457,9 @@ class GPT_Transformer_PGST(nn.Module):
         self.num_group = config.num_group
         self.encoder_dims = config.encoder_dims
 
+        self.local = config.local
+        self.tsne = config.tsne
+
         self.group_divider = Group(
             num_group=self.num_group, group_size=self.group_size)
 

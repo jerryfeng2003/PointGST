@@ -92,10 +92,10 @@ See [DATASET.md](./DATASET.md) for details.
 
 The evaluation commands with checkpoints should be in the following format:
 ```shell
-CUDA_VISIBLE_DEVICES=<GPU> python main.py --test --config <path/to/cfg> --exp_name <path/to/output> --ckpts <path/to/ckpt>
+CUDA_VISIBLE_DEVICES=<GPU> python main.py --test --config <path/to/cfg> --exp_name <path/to/output> --ckpts <namet>
 
 # further enable voting mechanism
-CUDA_VISIBLE_DEVICES=<GPU> python main.py --test --vote --config <path/to/cfg> --exp_name <path/to/output> --ckpts <path/to/ckpt>
+CUDA_VISIBLE_DEVICES=<GPU> python main.py --test --vote --config <path/to/cfg> --exp_name <path/to/output> --ckpts <name>
 ```
 
 All the experiments are conducted on a single NVIDIA 3090 GPU.
@@ -103,14 +103,20 @@ All the experiments are conducted on a single NVIDIA 3090 GPU.
 
 ```shell
 # t-SNE on ScanObjectNN
-CUDA_VISIBLE_DEVICES=<GPU> python main.py --config <path/to/cfg> --ckpts <path/to/ckpt> --tsne --exp_name <path/to/output>
+CUDA_VISIBLE_DEVICES=<GPU> python main.py --config <path/to/cfg> --ckpts <path/to/ckpt> --tsne --exp_name <name>
 ```
+
+### Training
+If you plan to fine-tune on top of pretrained models, please download the weights for [Point-MAE](https://github.com/Pang-Yatian/Point-MAE/releases/download/main/pretrain.pth), [ACT](https://drive.google.com/file/d/1T8bzdJfzdfQtCLu3WU9yDZTgBrLXSDcE/view?usp=share_link), [ReCon](https://drive.google.com/file/d/1L-TlZUi7umBCDpZW-1F0Gf4X-9Wvf_Zo/view?usp=share_link), or [PointGPT](https://drive.google.com/file/d/1nzCwriFbC2QoDbRpGhWvf_DbFIkFU6zV/view?usp=sharing) accordingly.
+```shell
+CUDA_VISIBLE_DEVICES=<GPU> python main.py --finetune_model --config <path/to/cfg>  --ckpts <path/to/ckpt> --exp_name <name>
+```
+
 ## To Do
 
 - [x] Release the inference code for classification.
 - [x] Release the checkpoints for classification.
-- [ ] Release the training code for classification.
-- [ ] Release the code for segmentation.
+- [x] Release the training code for classification.
 
 ## Acknowledgement
 

@@ -228,7 +228,6 @@ class PointTransformer_PGST(nn.Module):
             nn.Linear(256, self.cls_dim)
         )
 
-        self.getLaplacian = GetLaplacian(normalize=False)
         self.local = config.local
         self.tsne=config.tsne
         self.build_loss_func()

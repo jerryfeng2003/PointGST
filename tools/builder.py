@@ -144,6 +144,15 @@ def build_opti_sche(base_model, config):
                     print(name)
                 else:
                     param.requires_grad = False
+            elif config.optimizer.part == 'dapt':
+                if ('adapt' in name) or ('cls' in name) or ('tfts' in name):
+                    if (len(param.shape)) == 1 or name.endswith(".bias") or 'token' in name or name in skip_list:
+                        no_decay.append(param)
+                    else:
+                        decay.append(param)
+                    print(name)
+                else:
+                    param.requires_grad = False
             else:
                 if len(param.shape) == 1 or name.endswith(".bias") or 'token' in name or name in skip_list:
                     # print(name)

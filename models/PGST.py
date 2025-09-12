@@ -36,7 +36,7 @@ def get_basis(center):
     L = 1 / (L / torch.min(L[L > 0], dim=-1, keepdim=True).values + torch.eye(L.size(-1), device=L.device).unsqueeze(0))
     L = get_laplacian(L)
     _, U = torch.linalg.eigh(L)
-    return U
+    return U # This should be "U.transpose(-2, -1)", we keep it for reproducing our results in paper.
 
 def sort(pts: torch.Tensor, idx: torch.Tensor):
     return torch.gather(pts, dim=1, index=idx.unsqueeze(-1).expand(-1, -1, pts.size(-1)))

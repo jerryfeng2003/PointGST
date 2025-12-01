@@ -2,7 +2,7 @@
 <h1>Parameter-Efficient Fine-Tuning in Spectral Domain for Point Cloud Learning🚀</h1>
 
 
-[Dingkang Liang](https://dk-liang.github.io/)<sup>1</sup>\* ,[Tianrui Feng](https://github.com/jerryfeng2003)<sup>1</sup>\* ,[Xin Zhou](https://lmd0311.github.io/)<sup>1</sup>\* , Yumeng Zhang<sup>2</sup>, [Zhikang Zou](https://bigteacher-777.github.io/)<sup>2</sup>, and [Xiang Bai](https://scholar.google.com/citations?user=UeltiQ4AAAAJ&hl=en)<sup> 1✉️</sup>
+[Dingkang Liang](https://dk-liang.github.io/)<sup>1</sup>\* ,[Tianrui Feng](https://jerryfeng2003.github.io/)<sup>1</sup>\* ,[Xin Zhou](https://lmd0311.github.io/)<sup>1</sup>\* , Yumeng Zhang<sup>2</sup>, [Zhikang Zou](https://bigteacher-777.github.io/)<sup>2</sup>, and [Xiang Bai](https://scholar.google.com/citations?user=UeltiQ4AAAAJ&hl=en)<sup> 1✉️</sup>
 
 <sup>1</sup>  Huazhong University of Science and Technology, <sup>2</sup>  Baidu Inc.
 

@@ -15,6 +15,8 @@
 
 ## News
 
+**[2026-04-06]** 🚀 Check our latest CVPR 2026 paper **[PointTPA](https://github.com/H-EmbodVis/PointTPA)** which introduces an input-aware mechanism for efficient scene-level point cloud analysis. We also provide an **[update](https://github.com/H-EmbodVis/PointGST_on_Scene)** for PointGST.
+
 **[2025-07-26]** [PointGST](https://arxiv.org/abs/2410.08114) is accepted by TPAMI. 🎉
 
 **[2024-10-10]** [PointGST](https://arxiv.org/abs/2410.08114) is released. 🔥
